@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acqua Energy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <ul class="headerUl">
+            <li><a class="headerLink" href="index.html">Calculadora</a></li>
+            <li><img class="headerIcon" src="img/logoAcquaEnergy.png" alt="Logo da Aqua Energy"></li>
+        </ul>
+    </header>
+
+    <main>
+        <div class="mainContainer">
+            <h1>Calcule o consumo de energia:</h1>
+
+            <!-- Seleção de Tensão -->
+            <div class="selecioneTensao">
+                <p class="labelCalculoConsumo">Selecione a tensão:</p>
+                <div class="dropdown">
+                    <div class="select">
+                        <span>127V</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">127V</li>
+                        <li>220V</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Seleção de Potência Máxima -->
+            <div class="selecionePotencia">
+                <p class="labelCalculoConsumo">Selecione a potência máxima:</p>
+                <div class="dropdown">
+                    <div class="select">
+                        <span>4400W</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">4400W</li>
+                        <li>5500W</li>
+                        <li>6400W</li>
+                        <li>6800W</li>
+                        <li>7500W</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Seleção de Estação -->
+            <div class="selecioneEstacao">
+                <p class="labelCalculoConsumo">Selecione a estação:</p>
+                <div class="dropdown">
+                    <div class="select">
+                        <span>Verão</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">Verão</li>
+                        <li>Outono</li>
+                        <li>Inverno</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="sample"></div>
+
+            <div class="divConsumo">
+                <div id="resultado">
+                    <div id="caixaResultado" style="flex-wrap: wrap;">
+                        <p>Consumo: <span class="consumo">0 kWh</span></p>
+                        <p>Custo: <span class="custo">R$ 0</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <canvas id="graficoConsumo" width="400" height="200"></canvas>
+
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

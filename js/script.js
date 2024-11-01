@@ -9,6 +9,18 @@ document.addEventListener('DOMContentLoaded', function () {
     let consumos = [];
     let contadorBanho = 0; // Para rastrear o número de banhos
 
+    // Zera o gráfico, contador de banhos e define data como 0 ao recarregar a página
+    function resetDados() {
+        consumos = [];
+        contadorBanho = 0;
+        graficoConsumo.data.labels = [];
+        graficoConsumo.data.datasets[0].data = [];
+        graficoConsumo.update();
+        
+        // Define o tempo inicial como 0 ao carregar a página
+        calcularConsumo(0);
+    }
+
     // Tabela de potências para cada tensão e estação
     const potencias127V = {
         '4400W': { 'Verão': 1400, 'Outono': 3000, 'Inverno': 4400 },
@@ -47,11 +59,22 @@ document.addEventListener('DOMContentLoaded', function () {
         // Formata e exibe o tempo
         document.getElementById('sample').innerText = `Tempo de banho: ${formatTime(tempoSegundos)}`;
 
-        // Armazena o consumo se o contador zerar (fim do banho)
-        if (tempoSegundos === 0 && consumo > 0) {
-            consumos.push(consumo);
+        // Atualiza o gráfico em tempo real
+        if (consumo > 0) {
+            // Adiciona o consumo atual ao gráfico
+            if (graficoConsumo.data.labels.length <= contadorBanho) {
+                graficoConsumo.data.labels.push('Banho ' + (contadorBanho + 1));
+                graficoConsumo.data.datasets[0].data.push(consumo);
+            } else {
+                graficoConsumo.data.datasets[0].data[contadorBanho] = consumo;
+            }
+            graficoConsumo.update();
+        }
+
+        // Incrementa o contador de banhos ao receber 1 (fim do banho)
+        if (tempoSegundos === 1) {
+            consumos.push(consumo); // Armazena o consumo ao final do banho
             contadorBanho++;
-            atualizarGrafico();
         }
     }
 
@@ -96,12 +119,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Atualiza o gráfico com os dados mais recentes
-    function atualizarGrafico() {
-        graficoConsumo.data.labels.push('Banho ' + contadorBanho);
-        graficoConsumo.data.datasets[0].data.push(consumos[consumos.length - 1]);
-        graficoConsumo.update();
-    }
+    // Reseta os dados e define o tempo inicial como 0 ao carregar a página
+    resetDados();
 
     // Escuta os eventos do socket
     var socket = io();

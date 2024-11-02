@@ -118,6 +118,7 @@ void loop() {
 
       // Zera o contador de segundos
       segundos = 0;
+
     }
   }
 }

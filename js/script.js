@@ -1,32 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const dropdowns = document.querySelectorAll('.dropdown'); // Seleciona todos os dropdowns
 
     let tensaoSelecionada = '127V';
     let potenciaSelecionada = '4400W';
     let estacaoSelecionada = 'Verão';
 
-    // Array para armazenar os consumos de cada banho
-    let consumos = [];
-    let contadorBanho = 0; // Para rastrear o número de banhos
+    let contadorBanho = 0;
 
-    // Zera o gráfico, contador de banhos e define data como 0 ao recarregar a página
-    function resetDados() {
-        consumos = [];
-        contadorBanho = 0;
-        graficoConsumo.data.labels = [];
-        graficoConsumo.data.datasets[0].data = [];
-        graficoConsumo.update();
-        
-        // Define o tempo inicial como 0 ao carregar a página
-        calcularConsumo(0);
-    }
-
-    // Tabela de potências para cada tensão e estação
     const potencias127V = {
         '4400W': { 'Verão': 1400, 'Outono': 3000, 'Inverno': 4400 },
         '5500W': { 'Verão': 2210, 'Outono': 3789, 'Inverno': 5500 }
     };
-
     const potencias220V = {
         '4400W': { 'Verão': 1400, 'Outono': 3000, 'Inverno': 4400 },
         '5500W': { 'Verão': 2400, 'Outono': 3050, 'Inverno': 5500 },
@@ -35,50 +18,30 @@ document.addEventListener('DOMContentLoaded', function () {
         '7500W': { 'Verão': 2617, 'Outono': 5150, 'Inverno': 7500 }
     };
 
-    // Função para calcular o consumo e atualizar o gráfico
-    function calcularConsumo(tempoSegundos) {
-        let potencia;
-        if (tensaoSelecionada === '127V') {
-            potencia = potencias127V[potenciaSelecionada][estacaoSelecionada];
-        } else if (tensaoSelecionada === '220V') {
-            potencia = potencias220V[potenciaSelecionada][estacaoSelecionada];
-        }
-
-        const tempoHoras = Math.abs(tempoSegundos) / 3600; // Converte segundos em horas
-        const consumo = (potencia * tempoHoras) / 1000; // Consumo em kWh
-        const custo = consumo * 0.92; // Calcula o custo com base no preço do kWh
-
-        // Atualiza a interface com o consumo e custo
+    function atualizarConsumo(tempoSegundos) {
+        let potencia = tensaoSelecionada === '127V' ? potencias127V[potenciaSelecionada][estacaoSelecionada] : potencias220V[potenciaSelecionada][estacaoSelecionada];
+        const tempoHoras = Math.abs(tempoSegundos) / 3600;
+        const consumo = (potencia * tempoHoras) / 1000;
+        const custo = consumo * 0.92;
+    
+        // Atualiza o consumo e custo na interface
         document.querySelector('.consumo').innerText = consumo.toFixed(4) + ' kWh';
         document.querySelector('.custo').innerText = 'R$ ' + custo.toFixed(2);
-
-        // Exibe os resultados
-        document.getElementById('resultado').style.display = 'block';
-        document.getElementById('caixaResultado').style.display = 'flex';
-
-        // Formata e exibe o tempo
+    
+        // Garante que a caixa de resultado esteja visível
+        document.getElementById('caixaResultado').style.display = 'block';
+    
+        // Atualiza o cronômetro
         document.getElementById('sample').innerText = `Tempo de banho: ${formatTime(tempoSegundos)}`;
-
-        // Atualiza o gráfico em tempo real
-        if (consumo > 0) {
-            // Adiciona o consumo atual ao gráfico
-            if (graficoConsumo.data.labels.length <= contadorBanho) {
-                graficoConsumo.data.labels.push('Banho ' + (contadorBanho + 1));
-                graficoConsumo.data.datasets[0].data.push(consumo);
-            } else {
-                graficoConsumo.data.datasets[0].data[contadorBanho] = consumo;
-            }
-            graficoConsumo.update();
-        }
-
-        // Incrementa o contador de banhos ao receber 1 (fim do banho)
-        if (tempoSegundos === 1) {
-            consumos.push(consumo); // Armazena o consumo ao final do banho
-            contadorBanho++;
-        }
+    
+        // Atualiza os gráficos em tempo real
+        graficoConsumo.data.datasets[0].data[contadorBanho] = consumo;
+        graficoTempo.data.datasets[0].data[contadorBanho] = tempoSegundos / 60;
+        graficoCusto.data.datasets[0].data[contadorBanho] = custo;
+        graficoConsumo.update();
+        graficoTempo.update();
+        graficoCusto.update();
     }
-
-    // Função para formatar o tempo em HH:MM:SS
     function formatTime(seconds) {
         const hrs = Math.floor(seconds / 3600);
         const mins = Math.floor((seconds % 3600) / 60);
@@ -86,15 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 
-    // Configura o gráfico
-    let ctx = document.getElementById('graficoConsumo').getContext('2d');
-    const graficoConsumo = new Chart(ctx, {
+    const ctxConsumo = document.getElementById('graficoConsumo').getContext('2d');
+    const graficoConsumo = new Chart(ctxConsumo, {
         type: 'bar',
         data: {
-            labels: [], // Rótulos de cada banho
+            labels: ['Banho ' + (contadorBanho + 1)],
             datasets: [{
-                label: 'Consumo de energia por banho (kWh)',
-                data: [],
+                label: 'Consumo (kWh)',
+                data: [0],
                 backgroundColor: 'rgba(64, 74, 153, 0.6)',
                 borderColor: 'rgba(64, 74, 153, 1)',
                 borderWidth: 1
@@ -119,18 +81,93 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Reseta os dados e define o tempo inicial como 0 ao carregar a página
-    resetDados();
-
-    // Escuta os eventos do socket
-    var socket = io();
-    socket.on('data', function (data) {
-        console.log(data); // Log do dado recebido
-        var tempoSegundos = data; // Supõe que os dados contêm o tempo em segundos
-        calcularConsumo(tempoSegundos); // Chama a função de cálculo
+    const ctxTempo = document.getElementById('graficoTempo').getContext('2d');
+    const graficoTempo = new Chart(ctxTempo, {
+        type: 'line',
+        data: {
+            labels: ['Banho ' + (contadorBanho + 1)],
+            datasets: [{
+                label: 'Tempo (min)',
+                data: [0],
+                backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Tempo (min)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Número do Banho'
+                    }
+                }
+            }
+        }
     });
 
-    // Configuração dos dropdowns e eventos
+    const ctxCusto = document.getElementById('graficoCusto').getContext('2d');
+    const graficoCusto = new Chart(ctxCusto, {
+        type: 'line',
+        data: {
+            labels: ['Banho ' + (contadorBanho + 1)],
+            datasets: [{
+                label: 'Custo (R$)',
+                data: [0],
+                backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Custo (R$)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Número do Banho'
+                    }
+                }
+            }
+        }
+    });
+
+    window.novoBanho = function () {
+        contadorBanho++;
+        graficoConsumo.data.labels.push('Banho ' + (contadorBanho + 1));
+        graficoConsumo.data.datasets[0].data.push(0);
+        graficoTempo.data.labels.push('Banho ' + (contadorBanho + 1));
+        graficoTempo.data.datasets[0].data.push(0);
+        graficoCusto.data.labels.push('Banho ' + (contadorBanho + 1));
+        graficoCusto.data.datasets[0].data.push(0);
+        graficoConsumo.update();
+        graficoTempo.update();
+        graficoCusto.update();
+    };
+
+    var socket = io();
+    socket.on('data', function (data) {
+        const tempoSegundos = data;
+        atualizarConsumo(tempoSegundos);
+    });
+});
+
+// Configuração dos dropdowns e eventos
+document.addEventListener('DOMContentLoaded', function () {
+    const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
         const select = dropdown.querySelector('.select');
         const caret = dropdown.querySelector('.caret');
@@ -173,3 +210,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+

@@ -258,6 +258,16 @@ header {
     cursor: pointer;
 }
 
+.btnLimpar {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ff4d4d;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 #caixaResultado {
     display: none;
     align-items: center;

@@ -45,16 +45,97 @@ function calcularConsumo() {
     document.getElementById('resultado').style.display = 'block';
     document.getElementById('caixaResultado').style.display = 'flex';
 
-    // Armazena os dados e especificações
-    consumos.push(consumo);
-    custos.push(custo);
-    temposBanho.push(tempoMinutos);
-    especificacoes.push(`${tensaoSelecionada}, ${potenciaSelecionada}, ${estacaoSelecionada}`);
-    contadorBanho++;
+    // // Armazena os dados e especificações
+    // consumos.push(consumo);
+    // custos.push(custo);
+    // temposBanho.push(tempoMinutos);
+    // especificacoes.push(`${tensaoSelecionada}, ${potenciaSelecionada}, ${estacaoSelecionada}`);
+    // contadorBanho++;
 
-    atualizarGraficos(); // Atualiza todos os gráficos
+    // atualizarGraficos(); // Atualiza todos os gráficos
+
+    fetch('https://6727d6c8270bd0b97553b20b.mockapi.io/chuveiro', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            consumo: consumo.toFixed(4) + ' kWh',
+            custo: custo.toFixed(2),
+            tempo: tempoMinutos,
+            potencia: potenciaSelecionada,
+            tensao: tensaoSelecionada,
+            estacao: estacaoSelecionada,
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Atualiza os gráficos com os dados recebidos da API
+            consumos.push(parseFloat(data.consumo));
+            custos.push(parseFloat(data.custo));
+            temposBanho.push(parseFloat(data.tempo));
+            especificacoes.push(`${data.tensao}, ${data.potencia}, ${data.estacao}`);
+            contadorBanho++;
+
+            atualizarGraficos(); // Atualiza todos os gráficos
+        })
+        .catch(error => console.error('Erro ao enviar dados para a API:', error));
 }
 
+// Função para carregar os dados da API ao iniciar a página
+function carregarDadosIniciais() {
+    fetch('https://6727d6c8270bd0b97553b20b.mockapi.io/chuveiro')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                consumos.push(parseFloat(item.consumo));
+                custos.push(parseFloat(item.custo));
+                temposBanho.push(parseFloat(item.tempo));
+                especificacoes.push(`${item.tensao}, ${item.potencia}, ${item.estacao}`);
+                contadorBanho++;
+
+                const label = `Banho ${contadorBanho} (${item.tensao}, ${item.potencia}, ${item.estacao})`;
+                graficoConsumo.data.labels.push(label);
+                graficoConsumo.data.datasets[0].data.push(parseFloat(item.consumo));
+                graficoCusto.data.labels.push(label);
+                graficoCusto.data.datasets[0].data.push(parseFloat(item.custo));
+                graficoTempo.data.labels.push(label);
+                graficoTempo.data.datasets[0].data.push(parseFloat(item.tempo));
+            });
+
+            graficoConsumo.update();
+            graficoCusto.update();
+            graficoTempo.update();
+        })
+        .catch(error => console.error('Erro ao carregar dados da API:', error));
+}
+
+let graficoConsumo, graficoCusto, graficoTempo;
+// Função para mostrar todos os banhos ao iniciar a página
+function mostrarTodosBanhos() {
+    fetch('https://6727d6c8270bd0b97553b20b.mockapi.io/chuveiro')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const label = `Banho ${item.id} (${item.tensao}, ${item.potencia}, ${item.estacao})`;
+
+                graficoConsumo.data.labels.push(label);
+                graficoConsumo.data.datasets[0].data.push(parseFloat(item.consumo));
+                graficoConsumo.update();
+
+                graficoCusto.data.labels.push(label);
+                graficoCusto.data.datasets[0].data.push(parseFloat(item.custo));
+                graficoCusto.update();
+
+                graficoTempo.data.labels.push(label);
+                graficoTempo.data.datasets[0].data.push(parseFloat(item.tempo));
+                graficoTempo.update();
+            });
+        })
+        .catch(error => console.error('Erro ao carregar dados da API:', error));
+}
+
+// Removido para evitar duplicação de dados
 // Função para configurar os gráficos com Chart.js
 function configurarGraficos() {
     const ctxConsumo = document.getElementById('graficoConsumo').getContext('2d');
@@ -124,8 +205,52 @@ function atualizarGraficos() {
     graficoTempo.update();
 }
 
+// Função para limpar todos os dados da API
+function limparDados() {
+    fetch('https://6727d6c8270bd0b97553b20b.mockapi.io/chuveiro')
+        .then(response => response.json())
+        .then(data => {
+            const deletePromises = data.map(item => 
+                fetch(`https://6727d6c8270bd0b97553b20b.mockapi.io/chuveiro/${item.id}`, {
+                    method: 'DELETE'
+                })
+            );
+            return Promise.all(deletePromises);
+        })
+        .then(() => {
+            // Limpar os arrays locais
+            consumos = [];
+            custos = [];
+            temposBanho = [];
+            especificacoes = [];
+            contadorBanho = 0;
+
+            // Atualizar os gráficos
+            graficoConsumo.data.labels = [];
+            graficoConsumo.data.datasets[0].data = [];
+            graficoConsumo.update();
+
+            graficoCusto.data.labels = [];
+            graficoCusto.data.datasets[0].data = [];
+            graficoCusto.update();
+
+            graficoTempo.data.labels = [];
+            graficoTempo.data.datasets[0].data = [];
+            graficoTempo.update();
+
+            console.log('Dados limpos com sucesso.');
+        })
+        .catch(error => console.error('Erro ao limpar dados da API:', error));
+}
+
 // Inicializa os gráficos ao carregar a página
 configurarGraficos();
+
+// Carregar os dados iniciais ao iniciar a página
+carregarDadosIniciais();
+
+// Adicionar evento de clique para o botão de limpar
+document.getElementById('btnLimpar').addEventListener('click', limparDados);
 
 // Lógica para manipular os dropdowns e capturar as seleções
 dropdowns.forEach(dropdown => {

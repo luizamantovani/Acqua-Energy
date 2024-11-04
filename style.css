@@ -329,6 +329,7 @@ canvas {
     }
 
     .headerUl {
+        width: 100%;
         flex-direction: column;
         text-align: center;
     }
@@ -350,6 +351,7 @@ canvas {
     main {
         width: 100vw;
         flex-direction: column;
+        justify-content: center;
         padding: 10px;
     }
 

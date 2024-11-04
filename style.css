@@ -22,8 +22,8 @@ body {
 
 main {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
+    justify-content: center;
     padding: 20px;
     gap: 20px;
 }
@@ -34,7 +34,6 @@ h1, h2 {
     margin-bottom: 20px;
     color: #080c2c;
 }
-
 
 header {
     width: 100%;
@@ -68,7 +67,6 @@ header {
 
 /* Estilos das seções */
 .left-container {
-    width: 48%;
     background-color: #fff;
     box-shadow: 0 0 20px #374088;
     padding: 20px;
@@ -79,7 +77,8 @@ header {
 }
 
 .right-container {
-    width: 48%;
+    width: 100%; /* Ajustar para ocupar toda a largura disponível */
+    max-width: 600px; /* Definir uma largura máxima */
     background-color: #fff;
     box-shadow: 0 0 20px #374088;
     padding: 20px;
@@ -102,7 +101,6 @@ header {
     font-family: "Archivo", sans-serif;
     margin-bottom: 10px;
 }
-
 
 .divConsumo {
     display: block;
@@ -133,7 +131,6 @@ header {
     max-width: 100%;
 }
 
-
 .select {
     width: 120px;
     height: 30px;
@@ -147,7 +144,6 @@ header {
     padding: 0.3em;
     cursor: pointer;
     transition: 0.3s;
-
 }
 
 .select-clicked {
@@ -220,15 +216,17 @@ header {
 .selecionePot {
     margin-top: 20px;
     width: 600px;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
+    display: flex;
+    flex-direction: column; /* Alinha os itens verticalmente */
 }
 
 .inputTempo {
-    width: 120px;
+    width: 100%; /* Largura total do container */
+    max-width: 150px; /* Largura máxima */
     height: 30px;
     padding: 4.8px;
-    margin-left: 2em;
     border-radius: 0.5em;
     background-color: #404a99;
     color: azure;
@@ -279,10 +277,39 @@ header {
     margin-top: 20px;
 }
 
+#caixaResultadoAgua {
+    display: none;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-family: "Archivo", sans-serif;
+    border-radius: 0.5em;
+    border: 2px solid #404a99;
+    margin-top: 20px;
+}
+
 canvas {
     width: 100%;
     height: auto;
     margin-top: 15px;
+}
+
+.totaisContainer {
+    background-color: #fff;
+    box-shadow: 0 0 20px #374088;
+    padding: 20px;
+    border-radius: 0.5em;
+    margin-top: 20px;
+    font-family: "Archivo", sans-serif;
+    font-size: 18px;
+    color: #080c2c;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.totaisContainer h2 {
+    margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {

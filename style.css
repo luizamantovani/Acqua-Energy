@@ -329,7 +329,6 @@ canvas {
     }
 
     .headerUl {
-        width: 100%;
         flex-direction: column;
         text-align: center;
     }
@@ -351,7 +350,6 @@ canvas {
     main {
         width: 100vw;
         flex-direction: column;
-        justify-content: center;
         padding: 10px;
     }
 
@@ -364,22 +362,6 @@ canvas {
     }
 
     .inputTempo {
-        margin-left: 0;
-        max-width: 150px;
-    }
-
-    .btnCalcular, .btnLimpar {
-        max-width: 150px;
-    }
-
-    .totaisContainer {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    /* Header Adjustments */
-    header {
         width: 100%; /* Make header full width */
     }
 
@@ -411,7 +393,7 @@ canvas {
         margin: 0 auto; /* Center the main container */
     }
 
-    h1, h2 {
+    h1, h2{
         font-size: 20px; /* Reduce heading size */
     }
 
@@ -429,10 +411,11 @@ canvas {
 
     .dropdown,
     .inputTempo {
+
         margin: 10px 0; /* Add spacing between items */
     }
 
-    .btnCalcular, .btnLimpar {
+    .btnCalcular {
         display: flex;
         justify-content: center;
         max-width: 100%;
@@ -443,14 +426,10 @@ canvas {
     }
 
     /* Result Box Adjustments */
-    #caixaResultado, #caixaResultadoAgua {
-        width: 80vw; /* Scale the result box */
+    #caixaResultado {
+        width: 40vw; /* Scale the result box */
         height: auto; /* Adjust height automatically */
         font-size: 16px; /* Adjust text size */
         padding: 8px;
-    }
-
-    .totaisContainer {
-        width: 100%;
     }
 }

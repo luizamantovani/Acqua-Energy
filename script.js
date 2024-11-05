@@ -60,7 +60,7 @@ function calcularConsumo() {
     // Atualizar a interface
     document.querySelector('.consumo').innerText = consumo.toFixed(5) + ' kWh';
     document.querySelector('.custo').innerText = 'R$ ' + custo.toFixed(2);
-    document.querySelector('.consumoAgua').innerText = consumoM3 + ' m³';
+    document.querySelector('.consumoAgua').innerText = consumoM3 + ' m³ (' + vazao.toFixed(2) + ' L)';
     document.getElementById('resultado').style.display = 'block';
     document.getElementById('caixaResultado').style.display = 'flex';
     document.getElementById('resultadoAgua').style.display = 'block';
@@ -83,7 +83,7 @@ function calcularConsumo() {
     document.querySelector('.totalEnergia').innerText = totalEnergia.toFixed(5) + ' kWh';
     document.querySelector('.totalCustoEnergia').innerText = 'R$ ' + totalCustoEnergia.toFixed(2);
     document.querySelector('.totalTempoBanho').innerText = totalTempoBanho + ' minutos';
-    document.querySelector('.totalVazaoLitros').innerText = totalVazaoLitros.toFixed(2) + ' L';
+    document.querySelector('.totalVazaoLitros').innerText = totalVazaoLitros.toFixed(2) + ' L (' + (totalVazaoLitros / 1000).toFixed(2) + ' m³)';
     document.querySelector('.totalVazaoM3').innerText = (totalVazaoLitros / 1000).toFixed(2) + ' m³';
     document.querySelector('.totalCustoAgua').innerText = 'R$ ' + totalCustoAgua.toFixed(2);
     document.querySelector('.totalCustoEsgoto').innerText = 'R$ ' + totalCustoEsgoto.toFixed(2);
@@ -173,7 +173,7 @@ function carregarDadosIniciais() {
             document.querySelector('.totalEnergia').innerText = totalEnergia.toFixed(5) + ' kWh';
             document.querySelector('.totalCustoEnergia').innerText = 'R$ ' + totalCustoEnergia.toFixed(2);
             document.querySelector('.totalTempoBanho').innerText = totalTempoBanho + ' minutos';
-            document.querySelector('.totalVazaoLitros').innerText = totalVazaoLitros.toFixed(2) + ' L';
+            document.querySelector('.totalVazaoLitros').innerText = totalVazaoLitros.toFixed(2) + ' L (' + (totalVazaoLitros / 1000).toFixed(2) + ' m³)';
             document.querySelector('.totalVazaoM3').innerText = (totalVazaoLitros / 1000).toFixed(2) + ' m³';
             document.querySelector('.totalCustoAgua').innerText = 'R$ ' + totalCustoAgua.toFixed(2);
             document.querySelector('.totalCustoEsgoto').innerText = 'R$ ' + totalCustoEsgoto.toFixed(2);

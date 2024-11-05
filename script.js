@@ -39,8 +39,15 @@ function calcularConsumo() {
     isCalculating = true;
 
     const tempoMinutos = parseFloat(document.getElementById('tempo').value);
-    const tempoHoras = tempoMinutos / 60; // Converter minutos para horas
     const agua = parseFloat(document.getElementById('agua').value);
+
+    if (isNaN(tempoMinutos) || tempoMinutos <= 0 || isNaN(agua) || agua <= 0) {
+        alert('Por favor, insira valores válidos para o tempo e a vazão.');
+        isCalculating = false;
+        return;
+    }
+
+    const tempoHoras = tempoMinutos / 60; // Converter minutos para horas
     const vazao = agua * 6 * tempoMinutos; // Calcular a vazão e multiplicar pelos minutos
 
     let potencia;
@@ -281,6 +288,62 @@ function configurarGraficos() {
     });
 }
 
+let graficoPorcentagem;
+
+// Função para calcular a porcentagem e atualizar o gráfico de pizza
+function calcularPorcentagem() {
+    const faturaTotal = parseFloat(document.getElementById('fatura').value);
+    if (isNaN(faturaTotal) || faturaTotal <= 0) {
+        alert('Por favor, insira um valor válido para a fatura.');
+        return;
+    }
+
+    const porcentagemBanho = (totalEnergia / faturaTotal) * 100;
+    const porcentagemOutros = 100 - porcentagemBanho;
+
+    // Atualizar o gráfico de pizza
+    graficoPorcentagem.data.datasets[0].data = [porcentagemBanho, porcentagemOutros];
+    graficoPorcentagem.update();
+}
+
+// Função para configurar o gráfico de pizza
+function configurarGraficoPorcentagem() {
+    const ctxPorcentagem = document.getElementById('graficoPorcentagem').getContext('2d');
+    graficoPorcentagem = new Chart(ctxPorcentagem, {
+        type: 'pie',
+        data: {
+            labels: ['Banho', 'Outros'],
+            datasets: [{
+                data: [0, 0],
+                backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return context.label + ': ' + context.raw.toFixed(2) + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Inicializa o gráfico de pizza ao carregar a página
+configurarGraficoPorcentagem();
+
+// Adicionar evento de clique para o botão de calcular porcentagem
+document.getElementById('btnCalcularPorcentagem').addEventListener('click', calcularPorcentagem);
+
 // Função para atualizar os gráficos com os dados mais recentes
 function atualizarGraficos() {
     const label = `Banho ${contadorBanho} (${especificacoes[contadorBanho - 1]})`;
@@ -485,3 +548,57 @@ document.getElementById('toggleTheme').addEventListener('click', () => {
         document.getElementById('toggleTheme').innerText = 'Modo Escuro';
     }
 });
+
+let graficoPorcentagemBanhos;
+
+// Função para calcular a porcentagem de cada banho e atualizar o gráfico de barras
+function calcularPorcentagemBanhos() {
+    const porcentagensBanhos = consumos.map(consumo => (consumo / totalEnergia) * 100);
+
+    // Atualizar o gráfico de barras
+    graficoPorcentagemBanhos.data.labels = especificacoes.map((especificacao, index) => `Banho ${index + 1} (${especificacao})`);
+    graficoPorcentagemBanhos.data.datasets[0].data = porcentagensBanhos;
+    graficoPorcentagemBanhos.update();
+}
+
+// Função para configurar o gráfico de barras
+function configurarGraficoPorcentagemBanhos() {
+    const ctxPorcentagemBanhos = document.getElementById('graficoPorcentagemBanhos').getContext('2d');
+    graficoPorcentagemBanhos = new Chart(ctxPorcentagemBanhos, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Porcentagem de cada banho no total (%)',
+                data: [],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Porcentagem (%)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Banhos'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Inicializa o gráfico de barras ao carregar a página
+configurarGraficoPorcentagemBanhos();
+
+// Adicionar evento de clique para o botão de calcular porcentagem de banhos
+document.getElementById('btnCalcularPorcentagem').addEventListener('click', calcularPorcentagemBanhos);

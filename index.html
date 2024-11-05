@@ -115,6 +115,16 @@
                 <p>- Custo Total de Esgoto: <span class="totalCustoEsgoto">R$ 0.00</span></p>
                 <p>- Gasto Total (Energia, Água e Esgoto): <span class="totalGasto">R$ 0.00</span></p>
             </div>
+            
+            <div class="porcentContainer">
+                <h2 style="text-align: center;">Cálculos Percentuais</h2>
+                <label class="labelCalculoConsumo" for="tempo">Na fatura mensal, quantos kWh totais foram utilizados?</label>
+                <input class="inputTempo" type="number" name="fatura" id="fatura" min="1"
+                    placeholder="Valor Fatura (kWh)" width="auto"><br>
+                <button id="btnCalcularPorcentagem" class="btnCalcular">Calcular Porcentagem</button>
+                <canvas id="graficoPorcentagem"></canvas>
+                <canvas id="graficoPorcentagemBanhos"></canvas>
+            </div>
         </section>
 
         <section>

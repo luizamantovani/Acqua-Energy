@@ -316,6 +316,10 @@ canvas {
     margin-bottom: 20px;
 }
 
+.totaisContainer p {
+    line-height: 50px;
+}
+
 /* Estilo para o botão de alternância de tema */
 #toggleTheme {
     background-color: #404a99;

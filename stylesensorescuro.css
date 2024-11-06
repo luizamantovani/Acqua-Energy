@@ -9,11 +9,11 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    width: 99.35%;
+    width: 99.32%;
 }
 
 body {
-    background-image: linear-gradient(80deg, #6094b4, rgb(195, 195, 233));
+    background-image: linear-gradient(80deg, #2f546c, rgb(60, 60, 143));
     background-size: cover;
     /* Ensures the background image covers the whole screen */
     background-position: center;
@@ -23,6 +23,7 @@ body {
     background-attachment: fixed;
     /* Keeps the background fixed when scrolling */
     min-height: 100vh;
+    color: aliceblue;
 }
 
 main {
@@ -31,6 +32,7 @@ main {
     justify-content: center;
     padding: 20px;
     gap: 20px;
+    
 }
 
 h1,
@@ -38,7 +40,7 @@ h2 {
     font-family: "Archivo", sans-serif;
     font-weight: 500;
     margin-bottom: 20px;
-    color: #080c2c;
+    color: aliceblue;
 }
 
 header {
@@ -78,7 +80,7 @@ header {
     /* Ajustar para ocupar toda a largura disponível */
     max-width: 600px;
     /* Definir uma largura máxima */
-    background-color: #fff;
+    background-color: #2e2d2d;
     box-shadow: 0 0 20px #374088;
     padding: 20px;
     border-radius: 0.5em;
@@ -217,9 +219,11 @@ header {
 .selecionePot {
     margin-top: 20px;
     width: 600px;
+    /* align-items: center; */
     justify-content: center;
     display: flex;
     flex-direction: column;
+    /* Alinha os itens verticalmente */
 }
 
 .inputTempo {
@@ -269,17 +273,6 @@ header {
 }
 
 #caixaResultado {
-    display: none;
-    align-items: center;
-    padding: 10px;
-    font-size: 18px;
-    font-family: "Archivo", sans-serif;
-    border-radius: 0.5em;
-    border: 2px solid #404a99;
-    margin-top: 20px;
-}
-
-/* #caixaResultado {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -294,20 +287,43 @@ header {
     font-optical-sizing: auto;
     border-radius: 0.5em;
     border: 2px solid #404a99;
-    background-color: #f1f1f1;
+    background-color: #2e2d2d;
     max-width: 400px;
     font-size: 20px;
-} */
+}
 
-#caixaResultadoAgua {
-    display: none;
-    align-items: center;
-    padding: 10px;
+#novoBanhoBtn {
+    margin-top: 10px;
+    padding: 10px 20px;
     font-size: 18px;
-    font-family: "Archivo", sans-serif;
-    border-radius: 0.5em;
-    border: 2px solid #404a99;
+    background-color: #404a99;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#novoBanhoBtn:hover {
+    background-color: #374088;
+}
+
+.graficos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
     margin-top: 20px;
+}
+
+div#sample {
+    margin-top: 40px;
+    font-size: 24px;
+    font-weight: 100;
+    font-family: "Archivo", sans-serif;
+    font-optical-sizing: auto;
+    display: flex;
+    align-self: flex-start;
 }
 
 canvas {
@@ -317,16 +333,17 @@ canvas {
 }
 
 .totaisContainer {
-    background-color: #fff;
+    background-color: #2e2d2d;
     box-shadow: 0 0 20px #374088;
     padding: 20px;
     border-radius: 0.5em;
     margin-top: 20px;
     font-family: "Archivo", sans-serif;
     font-size: 18px;
-    color: #080c2c;
+    color: aliceblue;
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
 }
 
 .totaisContainer h2 {
@@ -335,32 +352,6 @@ canvas {
 
 .totaisContainer p {
     line-height: 50px;
-}
-
-.porcentContainer {
-    background-color: #fff;
-    box-shadow: 0 0 20px #374088;
-    padding: 20px;
-    border-radius: 0.5em;
-    margin-top: 20px;
-    font-family: "Archivo", sans-serif;
-    font-size: 18px;
-    color: #080c2c;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#graficoPorcentagem {
-    margin-top: 20px;
-    width: 300px;
-    height: 300px;
-}
-
-#graficoPorcentagemBanhos {
-    margin-top: 20px;
-    width: 300px;
-    height: 300px;
 }
 
 /* Estilo para o botão de alternância de tema */

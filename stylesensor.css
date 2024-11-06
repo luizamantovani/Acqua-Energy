@@ -9,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    width: 99.35%;
+    width: 99.32%;
 }
 
 body {
@@ -27,8 +27,8 @@ body {
 
 main {
     display: flex;
-    align-items: flex-start;
     justify-content: center;
+    align-items: flex-start;
     padding: 20px;
     gap: 20px;
 }
@@ -71,7 +71,7 @@ header {
     width: 260px;
 }
 
-/* Estilos das seções */
+
 .left-container,
 .right-container {
     width: 100%;
@@ -100,6 +100,7 @@ header {
     font-family: "Archivo", sans-serif;
     margin-bottom: 10px;
 }
+
 
 .divConsumo {
     display: block;
@@ -132,6 +133,7 @@ header {
     max-width: 100%;
 }
 
+
 .select {
     width: 120px;
     height: 30px;
@@ -145,6 +147,7 @@ header {
     padding: 0.3em;
     cursor: pointer;
     transition: 0.3s;
+
 }
 
 .select-clicked {
@@ -224,9 +227,7 @@ header {
 
 .inputTempo {
     width: 100%;
-    /* Largura total do container */
     max-width: 150px;
-    /* Largura máxima */
     height: 30px;
     padding: 4.8px;
     border-radius: 0.5em;
@@ -269,17 +270,6 @@ header {
 }
 
 #caixaResultado {
-    display: none;
-    align-items: center;
-    padding: 10px;
-    font-size: 18px;
-    font-family: "Archivo", sans-serif;
-    border-radius: 0.5em;
-    border: 2px solid #404a99;
-    margin-top: 20px;
-}
-
-/* #caixaResultado {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -297,9 +287,9 @@ header {
     background-color: #f1f1f1;
     max-width: 400px;
     font-size: 20px;
-} */
+}
 
-#caixaResultadoAgua {
+/* #caixaResultado {
     display: none;
     align-items: center;
     padding: 10px;
@@ -308,6 +298,40 @@ header {
     border-radius: 0.5em;
     border: 2px solid #404a99;
     margin-top: 20px;
+} */
+
+#novoBanhoBtn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #404a99;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#novoBanhoBtn:hover {
+    background-color: #374088;
+}
+
+.graficos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+div#sample {
+    margin-top: 40px;
+    font-size: 24px;
+    font-weight: 100;
+    font-family: "Archivo", sans-serif;
+    font-optical-sizing: auto;
+    display: flex;
+    align-self: flex-start;
 }
 
 canvas {
@@ -335,32 +359,6 @@ canvas {
 
 .totaisContainer p {
     line-height: 50px;
-}
-
-.porcentContainer {
-    background-color: #fff;
-    box-shadow: 0 0 20px #374088;
-    padding: 20px;
-    border-radius: 0.5em;
-    margin-top: 20px;
-    font-family: "Archivo", sans-serif;
-    font-size: 18px;
-    color: #080c2c;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#graficoPorcentagem {
-    margin-top: 20px;
-    width: 300px;
-    height: 300px;
-}
-
-#graficoPorcentagemBanhos {
-    margin-top: 20px;
-    width: 300px;
-    height: 300px;
 }
 
 /* Estilo para o botão de alternância de tema */

@@ -337,6 +337,42 @@ canvas {
     background-color: #374088;
 }
 
+.p-SobreNós{
+    font-size: 18px;
+    font-family: 'Arquivo', sans-serif;
+}
+
+img{
+    width: 500px;
+    border-radius: 0.5em;
+    margin-bottom: 20px;
+}
+
+.videoContainer{
+    background-color: #2e2d2d;
+    box-shadow: 0 0 20px #374088;
+    padding: 20px;
+    border-radius: 0.5em;
+    margin-top: 20px;
+    font-family: "Archivo", sans-serif;
+    font-size: 18px;
+    color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.odsImages{
+    display: flex;
+}
+
+.odsImages img{
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
 @media (max-width: 1024px) {
 
     .left-container,

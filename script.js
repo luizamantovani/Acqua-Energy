@@ -131,6 +131,12 @@ function calcularConsumo() {
         });
 }
 
+document.addEventListener('keydown', function(event){ // Chama a função calcularConsumo quando a tecla enter é apertada
+    if(event.key === 'Enter'){
+        calcularConsumo();
+    }
+})
+
 // Função para carregar os dados da API ao iniciar a página
 function carregarDadosIniciais() {
     fetch('https://6727d6c8270bd0b97553b20b.mockapi.io/chuveiro')

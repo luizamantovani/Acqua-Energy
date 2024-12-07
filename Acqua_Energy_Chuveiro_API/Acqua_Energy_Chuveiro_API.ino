@@ -1,9 +1,9 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-const char* ssid = "GabrielRodrigues";        // Substitua pelo nome da sua rede Wi-Fi
-const char* password = "19092005";   // Substitua pela senha da sua rede Wi-Fi
-const char* serverUrl = "http://192.168.254.26:3000/api/dados";  // URL da API (substitua <seu_ip> pelo IP do servidor)
+const char* ssid = "Wantovani";        // Substitua pelo nome da sua rede Wi-Fi
+const char* password = "123tovani456";   // Substitua pela senha da sua rede Wi-Fi
+const char* serverUrl = "http://192.168.15.23:3001/api/dados";  // URL da API (substitua <seu_ip> pelo IP do servidor)
 
 const int triggerPin = 27;  // Pino do trigger do sensor ultrassônico
 const int echoPin = 26;     // Pino do echo do sensor ultrassônico

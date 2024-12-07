@@ -279,6 +279,9 @@ header {
     margin-top: 20px;
 }
 
+.resultado{
+    height: 300px;
+}
 /* #caixaResultado {
     display: flex;
     flex-direction: column;
@@ -382,7 +385,6 @@ canvas {
     font-size: 18px;
     font-family: 'Arquivo', sans-serif;
 }
-
 img{
     width: 500px;
     border-radius: 0.5em;
